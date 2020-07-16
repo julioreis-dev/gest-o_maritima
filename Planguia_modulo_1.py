@@ -63,19 +63,19 @@ class PlanilhaInicial:
             linha_preenchida = linha_preenchida + 1
 
         cabecalho = ['Equipamento', 'Embarcação', 'ICJ', 'Tipo', 'Regional', 'Regional1', 'Dias']
-        for v1 in range(1, len(cabecalho) + 1):
+        for v1 in range(1, len(cabecalho)+1):
             nova_aba.cell(row=1, column=v1).value = cabecalho[v1 - 1]
-        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', dados_arquivo[0])
+        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', dados_arquivo[0])
 
     def ajustar_gopi(self):
-        gopi = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'GOPI')
+        gopi = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'GOPI')
         contador_linha = gopi[1].max_row
         dict_relevante = self.documentar_equipamento()
         for linha_gopi in range(2, contador_linha + 1):
             icj_gopi = gopi[1].cell(row=linha_gopi, column=2).value
             equipamento = dict_relevante[icj_gopi]
             gopi[1].cell(row=linha_gopi, column=2).value = equipamento
-        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', gopi[0])
+        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', gopi[0])
 
     @staticmethod
     def agregar_valores():
@@ -91,7 +91,7 @@ class PlanilhaInicial:
     @staticmethod
     def ajustar_celulas():
         wb = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020_1.xlsx', 'Base Dados')
-        wb2 = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'Previa')
+        wb2 = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
         contar_linha = wb[1].max_row
         for n in range(2, contar_linha + 1):
             for t in range(1, 4):
@@ -103,20 +103,41 @@ class PlanilhaInicial:
         for linha in range(1, contar_linha + 1):
             for coluna in range(1, 7):
                 wb2[1].cell(row=linha, column=coluna).value = wb[1].cell(row=linha, column=coluna).value
-        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', wb2[0])
+        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', wb2[0])
         wb[0].close()
 
 
 def main():
     planguia = PlanilhaInicial('Planilha Guia_dados.xlsx', 'Info Contrato', 'GOPI')
-    planguia.organizar()
-    planguia.agregar_valores()
-    planguia.ajustar_celulas()
-    planguia.ajustar_gopi()
-    Planguia_funcoes.mostrar_desempenho(3, 0)
-    Planguia_funcoes.agrupar_inoperancias()
-    Planguia_modulo_2.iniciar_2()
-    Planguia_funcoes.mostrar_desempenho(5, 1)
+    func = Planguia_funcoes
+    pergunta = int(input('\nTipos de opções disponíveis nesta aplicação:'
+                         '\nDigite 1 --> Emitir prévia da planilha guia.'
+                         '\nDigite 2 --> Tratar inoperâncias.'
+                         '\nDigite 3 --> (Opcional) - Recalcular planilha guia.'
+                         '\nDigite 4 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
+                         '\nDigite 0 --> Sair.'
+                         '\nPrezado usuário o que você deseja fazer?'))
+    if pergunta == 1:
+        planguia.organizar()
+        planguia.agregar_valores()
+        planguia.ajustar_celulas()
+        planguia.ajustar_gopi()
+        Planguia_modulo_2.iniciar_2()
+        func.ajustar_cabecalho()
+        func.mostrar_desempenho(5, 0)
+        func.mostrar_desempenho(0, 1)
+    elif pergunta == 2:
+        func.agrupar_inoperancias()
+        func.realocar_inoperancias()
+        func.calcular()
+        func.mostrar_desempenho(3, 2)
+    elif pergunta == 3:
+        func.calcular()
+        func.mostrar_desempenho(0, 3)
+    elif pergunta == 4:
+        pass
+    else:
+        print('\nPrezado usuário, aplicação encerrada com sucesso!!!')
 
 
 if __name__ == '__main__':
