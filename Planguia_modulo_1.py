@@ -4,7 +4,9 @@ import xlsxwriter
 import time
 from openpyxl import load_workbook
 import Planguia_modulo_2
+import Planguia_modulo_3
 import Planguia_inoperancia
+import win32com.client as win32
 
 '''Esta classe molda a planilha inicial de dados referentes a movimentação da frota maritima.'''
 
@@ -110,11 +112,12 @@ class PlanilhaInicial:
 def main():
     planguia = PlanilhaInicial('Planilha Guia_dados.xlsx', 'Info Contrato', 'GOPI')
     func = Planguia_funcoes
-    pergunta = int(input('\nTipos de opções disponíveis nesta aplicação:'
+    pergunta = int(input('Tipos de opções disponíveis nesta aplicação:'
                          '\nDigite 1 --> Emitir prévia da planilha guia.'
                          '\nDigite 2 --> Tratar inoperâncias.'
                          '\nDigite 3 --> (Opcional) - Recalcular planilha guia.'
-                         '\nDigite 4 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
+                         '\nDigite 4 --> Preparar versão final da planilha guia.'
+                         '\nDigite 5 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
                          '\nDigite 0 --> Sair.'
                          '\nPrezado usuário o que você deseja fazer?'))
     if pergunta == 1:
@@ -124,7 +127,8 @@ def main():
         planguia.ajustar_gopi()
         Planguia_modulo_2.iniciar_2()
         func.ajustar_cabecalho()
-        func.mostrar_desempenho(5, 0)
+        func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
+        func.mostrar_desempenho(4, 0)
         func.mostrar_desempenho(0, 1)
     elif pergunta == 2:
         func.agrupar_inoperancias()
@@ -135,7 +139,11 @@ def main():
         func.calcular()
         func.mostrar_desempenho(0, 3)
     elif pergunta == 4:
-        pass
+        func.transferir_dados()
+        func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+        func.mostrar_desempenho(0, 4)
+    elif pergunta == 5:
+        Planguia_modulo_3.iniciar_3()
     else:
         print('\nPrezado usuário, aplicação encerrada com sucesso!!!')
 

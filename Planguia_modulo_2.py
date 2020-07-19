@@ -90,7 +90,6 @@ class CentroCusto:
             lista_geral = []
         return dict_dadosregionais
 
-
     def extrair_info_contrato(self):
         """ Retorna um dicionário.ex:{equipamento:[nome_embarcação, gerente, fiscal, cessão contratual]}."""
         a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Info Contrato')

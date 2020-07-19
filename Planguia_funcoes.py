@@ -87,7 +87,7 @@ def mostrar_desempenho(numero, processo):
                          'Consolidação da frota marítima realizada com sucesso.',
                          '\nInoperâncias extraídas e distribuidas com sucesso.',
                          '\nPlanilha recalculada com sucesso.',
-                         '\nVersão final da planilha guia realizada com sucesso.']
+                         '\nElaboração da versão final da planilha guia foi realizada com sucesso.']
     tempo = 0.5
     for i in range(1, numero + 1):
         time.sleep(tempo)
@@ -205,6 +205,7 @@ def transferir_dados():
                            'de medição? (ex:1-Janeiro, 2-Fevereiro, 3-Março, ...)'))
 
     perg2 = int(input('Qual é a revisão da planilha guia de medição? (ex:1, 2, 3,...)'))
+    print('Preparando versão final, por favor aguarde!!!')
     z = openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
     aba_medicao = z[0]['Medição']
     lista_medicao = []
@@ -429,3 +430,16 @@ def formatar_ajustes(aba):
             for n10 in range(1, 16):
                 cores5 = PatternFill(fill_type='solid', start_color='ff9999', end_color='ff9999')
                 aba.cell(row=n9, column=n10).fill = cores5
+
+def saudar():
+    t = time.localtime()
+    z = t[3]
+    if z < 12:
+        a = 'Prezados Gerentes e Fiscais de contrato, Bom dia!'
+        return a
+    elif z >= 18:
+        b = 'Prezados Gerentes e Fiscais de contrato, Boa noite!'
+        return b
+    else:
+        c = 'Prezados Gerentes e Fiscais de contrato, Boa tarde!'
+        return c
