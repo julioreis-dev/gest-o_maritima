@@ -10,6 +10,9 @@ import win32com.client as win32
 import Planguia_modulo_2
 import time
 from openpyxl.styles import Alignment
+import requests
+import json
+from babel.numbers import format_currency
 
 '''Funções de apoio que são necessárias para a elaboração da planilha guia.'''
 
@@ -431,6 +434,7 @@ def formatar_ajustes(aba):
                 cores5 = PatternFill(fill_type='solid', start_color='ff9999', end_color='ff9999')
                 aba.cell(row=n9, column=n10).fill = cores5
 
+
 def saudar():
     t = time.localtime()
     z = t[3]
@@ -443,3 +447,15 @@ def saudar():
     else:
         c = 'Prezados Gerentes e Fiscais de contrato, Boa tarde!'
         return c
+
+
+def converter_moeda(valor):
+    valor_final = format_currency(valor, 'USD', '¤¤ #,##0.00', locale='es_ES')
+    return valor_final
+
+
+def importar_cambio():
+    request = requests.get('https://economia.awesomeapi.com.br/json/all')
+    cotacao = json.loads(request.text)
+    valor_compra = (cotacao['USD']['high'])
+    return float(valor_compra)
