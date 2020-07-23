@@ -61,7 +61,7 @@ class PlanilhaInicial:
             nova_aba.cell(row=linha_preenchida, column=6).value = t[4]
             nova_aba.cell(row=linha_preenchida, column=7).value = t[5]
             icj_extraido = t[1]
-            equip = Planguia_funcoes.atribuir_equipamento(icj_extraido, dict_dados)
+            equip = dict_dados[icj_extraido]
             nova_aba.cell(row=linha_preenchida, column=1).value = equip
             linha_preenchida = linha_preenchida + 1
 
@@ -115,10 +115,9 @@ def main():
     func = Planguia_funcoes
     pergunta = int(input('Tipos de opções disponíveis nesta aplicação:'
                          '\nDigite 1 --> Emitir prévia da planilha guia.'
-                         '\nDigite 2 --> Tratar inoperâncias.'
-                         '\nDigite 3 --> (Opcional) - Recalcular planilha guia.'
-                         '\nDigite 4 --> Preparar versão final da planilha guia.'
-                         '\nDigite 5 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
+                         '\nDigite 2 --> Computar indices de inoperâncias.'
+                         '\nDigite 3 --> Preparar versão final da planilha guia.'
+                         '\nDigite 4 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
                          '\nDigite 0 --> Sair.'
                          '\nPrezado usuário o que você deseja fazer?'))
     if pergunta == 1:
@@ -140,14 +139,12 @@ def main():
         Planguia_modulo_4.iniciar_4()
         func.mostrar_desempenho(3, 2)
     elif pergunta == 3:
-        print('Recalculando a previa da planilha guia.\nProcessando................')
+        func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
         func.calcular()
-        func.mostrar_desempenho(0, 3)
-    elif pergunta == 4:
         func.transferir_dados()
         func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
         func.mostrar_desempenho(0, 4)
-    elif pergunta == 5:
+    elif pergunta == 4:
         print('Preparando email para envio.\nProcessando................')
         Planguia_modulo_3.iniciar_3()
     else:

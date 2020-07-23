@@ -208,7 +208,7 @@ def transferir_dados():
                            'de medição? (ex:1-Janeiro, 2-Fevereiro, 3-Março, ...)'))
 
     perg2 = int(input('Qual é a revisão da planilha guia de medição? (ex:1, 2, 3,...)'))
-    print('Preparando versão final, por favor aguarde!!!.\nProcessando................')
+    print('Fatorando valores a serem medidos e preparando a versão final.\npor favor aguarde!!!.\nProcessando................')
     z = openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
     aba_medicao = z[0]['Medição']
     lista_medicao = []
@@ -459,3 +459,9 @@ def importar_cambio():
     cotacao = json.loads(request.text)
     valor_compra = (cotacao['USD']['high'])
     return float(valor_compra)
+
+
+def deletar(arquivo, aba):
+    t = openr(arquivo, aba)
+    t[1].delete_cols(1, 17)
+    closer(arquivo, t[0])
