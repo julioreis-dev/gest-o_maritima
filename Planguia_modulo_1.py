@@ -66,7 +66,7 @@ class PlanilhaInicial:
             linha_preenchida = linha_preenchida + 1
 
         cabecalho = ['Equipamento', 'Embarcação', 'ICJ', 'Tipo', 'Regional', 'Regional1', 'Dias']
-        for v1 in range(1, len(cabecalho)+1):
+        for v1 in range(1, len(cabecalho) + 1):
             nova_aba.cell(row=1, column=v1).value = cabecalho[v1 - 1]
         Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', dados_arquivo[0])
 
@@ -110,45 +110,89 @@ class PlanilhaInicial:
         wb[0].close()
 
 
-def main():
+def opcao1():
     planguia = PlanilhaInicial('Planilha Guia_dados.xlsx', 'Info Contrato', 'GOPI')
     func = Planguia_funcoes
-    pergunta = int(input('Tipos de opções disponíveis nesta aplicação:'
+    planguia.organizar()
+    planguia.agregar_valores()
+    planguia.ajustar_celulas()
+    planguia.ajustar_gopi()
+    Planguia_modulo_2.iniciar_2()
+    func.ajustar_cabecalho()
+    func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
+
+
+def opcao2():
+    func = Planguia_funcoes
+    func.agrupar_inoperancias()
+    func.realocar_inoperancias()
+    func.calcular()
+    Planguia_modulo_4.iniciar_4()
+
+
+def opcao3():
+    func = Planguia_funcoes
+    func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+    func.calcular()
+    func.transferir_dados()
+    func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+
+
+def opcao4():
+    opcao1()
+    opcao2()
+    opcao3()
+
+
+def opcao5():
+    Planguia_modulo_3.iniciar_3()
+
+
+def main():
+    func = Planguia_funcoes
+    arg_pass = True
+    while arg_pass:
+        pergunta = input('################################################'
+                         '\nTipos de opções disponíveis nesta aplicação:'
                          '\nDigite 1 --> Emitir prévia da planilha guia.'
                          '\nDigite 2 --> Computar indices de inoperâncias.'
                          '\nDigite 3 --> Preparar versão final da planilha guia.'
-                         '\nDigite 4 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
+                         '\nDigite 4 --> (Opcional) - Realizar o processo completo de elaboração da Planilha Guia.'
+                         '\nDigite 5 --> (Opcional) - Enviar planilha guia para os gerentes e fiscais de contrato.'
                          '\nDigite 0 --> Sair.'
-                         '\nPrezado usuário o que você deseja fazer?'))
-    if pergunta == 1:
-        print('Previa da planilha guia sendo realizada.\nProcessando................')
-        planguia.organizar()
-        planguia.agregar_valores()
-        planguia.ajustar_celulas()
-        planguia.ajustar_gopi()
-        Planguia_modulo_2.iniciar_2()
-        func.ajustar_cabecalho()
-        func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
-        func.mostrar_desempenho(3, 0)
-        func.mostrar_desempenho(0, 1)
-    elif pergunta == 2:
-        print('Analisando inoperâncias da frota.\nProcessando................')
-        func.agrupar_inoperancias()
-        func.realocar_inoperancias()
-        func.calcular()
-        Planguia_modulo_4.iniciar_4()
-        func.mostrar_desempenho(3, 2)
-    elif pergunta == 3:
-        func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
-        func.calcular()
-        func.transferir_dados()
-        func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
-        func.mostrar_desempenho(0, 4)
-    elif pergunta == 4:
-        print('Preparando email para envio.\nProcessando................')
-        Planguia_modulo_3.iniciar_3()
-    else:
-        print('\nPrezado usuário, aplicação encerrada com sucesso!!!')
+                         '\n################################################'
+                         '\nPrezado usuário, escolha uma opção?')
+        if pergunta.isdigit():
+            pergunta = int(pergunta)
+            if pergunta == 1:
+                print('Previa da planilha guia sendo realizada.\nProcessando................')
+                opcao1()
+                func.mostrar_desempenho(5, 0)
+                func.mostrar_desempenho(0, 1)
+            elif pergunta == 2:
+                print('Analisando inoperâncias da frota.\nProcessando................')
+                opcao2()
+                func.mostrar_desempenho(3, 2)
+            elif pergunta == 3:
+                opcao3()
+                func.mostrar_desempenho(0, 4)
+            elif pergunta == 4:
+                print('Realizando o processo completo de elaboração da planilha guia.\nProcessando................')
+                opcao4()
+                func.mostrar_desempenho(0, 4)
+            elif pergunta == 5:
+                print('Preparando email para envio.\nProcessando................')
+                opcao5()
+            elif pergunta == 0:
+                print('Finalizando................')
+                arg_pass = False
+            else:
+                print('\nOpção inválida, digite novamente de acordo com as opções disponíveis!!!')
+            time.sleep(3)
+        else:
+            print('\nPrezado usuário, tente novamente digitando um numero válido!!!\n')
+            time.sleep(3)
+    print('\nPrezado usuário, aplicação encerrada com sucesso!!!\n')
 
 
 if __name__ == '__main__':
