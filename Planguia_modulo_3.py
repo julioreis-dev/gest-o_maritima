@@ -13,8 +13,8 @@ class EnviarEmail:
     def preparar_email(self):
         aba_porte = self.arquivo.get_sheet_by_name('Porte')
         self.arquivo.remove_sheet(aba_porte)
-        aba_adc = self.arquivo.get_sheet_by_name('ADC')
-        self.arquivo.remove_sheet(aba_adc)
+        aba_taxa = self.arquivo.get_sheet_by_name('Taxa Diária')
+        self.arquivo.remove_sheet(aba_taxa)
         aba_previa = self.arquivo.get_sheet_by_name('Previa')
         self.arquivo.remove_sheet(aba_previa)
         aba_info_pblog = self.arquivo.get_sheet_by_name('Info Contrato - Pblog')
@@ -66,9 +66,9 @@ class EnviarEmail:
             self.revisao) + ').\nQualquer informação a acrescentar em alguma embarcação da frota, ' \
                             'que não constar na planilha, favor avisar para ajuste.' \
                             '\n\nATENÇÃO: PARA EMBARCAÇÕES QUE NÃO FORAM LIBERADAS ' \
-                            'PARA MEDIÇÃO VER NA COLUNA (N - "Embarcação Liberada") DA ABA (MEDIÇÃO).' \
-                            'TODAS AS ALTERAÇÕES REALIZADAS ' \
-                            'NA PLANILHA GUIA SÃO REGISTRADAS NA ABA "Revisão".' \
+                            'PARA MEDIÇÃO VER NA COLUNA (N - "Embarcação Liberada") DA ABA "MEDIÇÃO".' \
+                            ' TODAS AS ALTERAÇÕES REALIZADAS ' \
+                            'NA PLANILHA GUIA SÃO REGISTRADAS NA ABA "REVISÃO".' \
                             '\n\nAs embarcações "Não Liberadas" estão sendo analisadas ' \
                             'pela equipe de coordenação e controle das informações ' \
                             'referente a frota sob a gestão do CMAR, e em breve essas ' \
@@ -100,7 +100,6 @@ class EnviarEmail:
 
 
 def iniciar_3():
-    print('\nPreparando email para envio....................')
     t = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
     numero_mes = t[1].cell(row=1, column=16).value
     mes = Planguia_funcoes.definir_mes(numero_mes)

@@ -5,6 +5,7 @@ import time
 from openpyxl import load_workbook
 import Planguia_modulo_2
 import Planguia_modulo_3
+import Planguia_modulo_4
 import Planguia_inoperancia
 import win32com.client as win32
 
@@ -121,6 +122,7 @@ def main():
                          '\nDigite 0 --> Sair.'
                          '\nPrezado usuário o que você deseja fazer?'))
     if pergunta == 1:
+        print('Previa da planilha guia sendo realizada.\nProcessando................')
         planguia.organizar()
         planguia.agregar_valores()
         planguia.ajustar_celulas()
@@ -128,14 +130,17 @@ def main():
         Planguia_modulo_2.iniciar_2()
         func.ajustar_cabecalho()
         func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
-        func.mostrar_desempenho(4, 0)
+        func.mostrar_desempenho(3, 0)
         func.mostrar_desempenho(0, 1)
     elif pergunta == 2:
+        print('Analisando inoperâncias da frota.\nProcessando................')
         func.agrupar_inoperancias()
         func.realocar_inoperancias()
         func.calcular()
+        Planguia_modulo_4.iniciar_4()
         func.mostrar_desempenho(3, 2)
     elif pergunta == 3:
+        print('Recalculando a previa da planilha guia.\nProcessando................')
         func.calcular()
         func.mostrar_desempenho(0, 3)
     elif pergunta == 4:
@@ -143,6 +148,7 @@ def main():
         func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
         func.mostrar_desempenho(0, 4)
     elif pergunta == 5:
+        print('Preparando email para envio.\nProcessando................')
         Planguia_modulo_3.iniciar_3()
     else:
         print('\nPrezado usuário, aplicação encerrada com sucesso!!!')

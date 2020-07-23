@@ -194,9 +194,9 @@ def calcular():
     closer('Projeto_planilha_Guia_Medição.xlsx', z[0])
 
 
-def ajustar_colunas(caminho, aba):
+def ajustar_colunas(arquivo, aba):
     excel = win32.gencache.EnsureDispatch("Excel.Application")
-    wb = excel.Workbooks.Open(caminho)
+    wb = excel.Workbooks.Open(arquivo)
     ws = wb.Worksheets(aba)
     ws.Columns.AutoFit()
     wb.Save()
@@ -208,7 +208,7 @@ def transferir_dados():
                            'de medição? (ex:1-Janeiro, 2-Fevereiro, 3-Março, ...)'))
 
     perg2 = int(input('Qual é a revisão da planilha guia de medição? (ex:1, 2, 3,...)'))
-    print('Preparando versão final, por favor aguarde!!!')
+    print('Preparando versão final, por favor aguarde!!!.\nProcessando................')
     z = openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
     aba_medicao = z[0]['Medição']
     lista_medicao = []
