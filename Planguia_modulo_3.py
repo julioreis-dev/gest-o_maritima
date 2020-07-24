@@ -13,7 +13,7 @@ class EnviarEmail:
     def preparar_email(self):
         aba_porte = self.arquivo.get_sheet_by_name('Porte')
         self.arquivo.remove_sheet(aba_porte)
-        aba_taxa = self.arquivo.get_sheet_by_name('Taxa Diária')
+        aba_taxa = self.arquivo.get_sheet_by_name('Taxa')
         self.arquivo.remove_sheet(aba_taxa)
         aba_previa = self.arquivo.get_sheet_by_name('Previa')
         self.arquivo.remove_sheet(aba_previa)

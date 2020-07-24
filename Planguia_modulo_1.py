@@ -83,7 +83,7 @@ class PlanilhaInicial:
     @staticmethod
     def agregar_valores():
         Planguia_funcoes.agregar_dados()
-        arquivo_excel = r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição_2020_1.xlsx'
+        arquivo_excel = r'C:\Users\(chave)\Desktop\Python\projetos\Projeto_planilha_Guia_Medição_2020_1.xlsx'
         planilha = pd.read_excel(arquivo_excel, sheet_name='Base Dados')
 
         planilha_nova = planilha[['Embarcação', 'Regional1', 'Equipamento', 'Regional', 'Tipo', 'Dias']]
@@ -135,7 +135,7 @@ def opcao3():
     func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
     func.calcular()
     func.transferir_dados()
-    func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+    func.ajustar_colunas(r'C:\Users\(chave)\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
 
 
 def opcao4():

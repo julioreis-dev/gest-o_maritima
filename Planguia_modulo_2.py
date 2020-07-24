@@ -13,19 +13,19 @@ class CentroCusto:
         self.lista_pronta = dict_dados
 
     def definir_centroregional(self):
-        """ Retorna valores dos metodos: tratar_ols_olnf, tratar_ols_olnne, tratar_outrasregionais."""
-        if self.regional == 'OLS' or self.regional == 'OLNF':
-            resultado = self.tratar_ols_olnf()
+        """ Retorna valores dos metodos: tratar, tratar1, tratar_outrasregionais."""
+        if self.regional == 'OL' or self.regional == 'OL1':
+            resultado = self.tratar1()
             return resultado
-        elif self.regional == 'OLNNE':
+        elif self.regional == 'OL2':
             resultado1 = self.tratar_olnne()
             return resultado1
         else:
             resultado2 = self.tratar_outrasregionais()
             return resultado2
 
-    def tratar_ols_olnf(self):
-        """ Retorna uma lista com os dados relevantes para a medição referentes a OLS ou OLNF."""
+    def tratar1(self):
+        """ Retorna uma lista com os dados relevantes para a medição referentes a OL1 ou OL2."""
         infor_reg = self.lista_pronta
         informacoes = infor_reg[self.regional]
         if self.porte == 'EPP':
@@ -35,17 +35,17 @@ class CentroCusto:
         elif self.porte == 'EGP':
             return informacoes[2]
 
-    def tratar_olnne(self):
-        """ Retorna uma lista com os dados relevantes para a medição referente a OLNNE."""
+    def trata2(self):
+        """ Retorna uma lista com os dados relevantes para a medição referente a OL2."""
         infor_reg = self.lista_pronta
         informacoes = infor_reg[self.regional]
-        if self.regional1 == 'SEAL':
+        if self.regional1 == 'SE':
             return informacoes[0]
-        elif self.regional1 == 'UO-RNCE':
+        elif self.regional1 == 'NCE':
             return informacoes[1]
-        elif self.regional1 == 'UO-BA':
+        elif self.regional1 == 'BA':
             return informacoes[2]
-        elif self.regional1 == 'Área Remota':
+        elif self.regional1 == 'Área':
             return informacoes[3]
 
     def tratar_outrasregionais(self):
@@ -67,7 +67,7 @@ class CentroCusto:
 
     def catalogar_cc(self):
         """ Retorna um dicionário.
-        ex:{Regional:[[Reg1, Reg, CC, CC-PBLOG, atv, None, Obj(com cessão), Obj(sem cessão), None, PRL, PRL PBLOG]]}"""
+        ex:{Regional:[[Reg1, Reg, CC, CC-PB2, atv, None, Obj(com cessão), Obj(sem cessão), None, PRL, PRL PB2]}"""
         a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'PRL')
         self.organizar_regional()
         dict_dadosregionais = {}
@@ -91,7 +91,7 @@ class CentroCusto:
         return dict_dadosregionais
 
     def extrair_info_contrato(self):
-        """ Retorna um dicionário.ex:{equipamento:[nome_embarcação, gerente, fiscal, cessão contratual]}."""
+        """ Retorna um dicionário.ex:{equipamento:[nome_embarc, ger, fisc, cessão]}."""
         a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Info Contrato')
         numero_linha = a[1].max_row
         lista_contrato = []
