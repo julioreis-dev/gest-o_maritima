@@ -13,21 +13,19 @@ class CentroCusto:
         self.lista_pronta = dict_dados
 
     def definir_centroregional(self):
-
-        """ Retorna valores dos metodos: tratar_ols_olnf, tratar_ols_olnne, tratar_outrasregionais."""
-
-        if self.regional == 'OLS' or self.regional == 'OLNF':
-            resultado = self.tratar_ols_olnf()
+        """ Retorna valores dos metodos: tratar, tratar1, tratar_outrasregionais."""
+        if self.regional == 'OL' or self.regional == 'OL1':
+            resultado = self.tratar1()
             return resultado
-        elif self.regional == 'OLNNE':
+        elif self.regional == 'OL2':
             resultado1 = self.tratar_olnne()
             return resultado1
         else:
             resultado2 = self.tratar_outrasregionais()
             return resultado2
 
-    def tratar_ols_olnf(self):
-        """ Retorna uma lista com os dados relevantes para a medição referentes a OLS ou OLNF."""
+    def tratar1(self):
+        """ Retorna uma lista com os dados relevantes para a medição referentes a OL1 ou OL2."""
         infor_reg = self.lista_pronta
         informacoes = infor_reg[self.regional]
         if self.porte == 'EPP':
@@ -37,17 +35,17 @@ class CentroCusto:
         elif self.porte == 'EGP':
             return informacoes[2]
 
-    def tratar_olnne(self):
-        """ Retorna uma lista com os dados relevantes para a medição referente a OLNNE."""
+    def trata2(self):
+        """ Retorna uma lista com os dados relevantes para a medição referente a OL2."""
         infor_reg = self.lista_pronta
         informacoes = infor_reg[self.regional]
-        if self.regional1 == 'SEAL':
+        if self.regional1 == 'SE':
             return informacoes[0]
-        elif self.regional1 == 'UO-RNCE':
+        elif self.regional1 == 'NCE':
             return informacoes[1]
-        elif self.regional1 == 'UO-BA':
+        elif self.regional1 == 'BA':
             return informacoes[2]
-        elif self.regional1 == 'Área Remota':
+        elif self.regional1 == 'Área':
             return informacoes[3]
 
     def tratar_outrasregionais(self):
@@ -58,7 +56,7 @@ class CentroCusto:
 
     def organizar_regional(self):
         """ Retorna um lista de reginais (sem repetição) que possuem operação maritima."""
-        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'PRL')
+        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'PRL')
         lista_regional = []
         numero_linha = a[1].max_row
         for n in range(3, numero_linha + 1):
@@ -69,8 +67,8 @@ class CentroCusto:
 
     def catalogar_cc(self):
         """ Retorna um dicionário.
-        ex:{Regional:[[Reg1, Reg, CC, CC-PBLOG, atv, None, Obj(com cessão), Obj(sem cessão), None, PRL, PRL PBLOG]]}"""
-        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'PRL')
+        ex:{Regional:[[Reg1, Reg, CC, CC-PB2, atv, None, Obj(com cessão), Obj(sem cessão), None, PRL, PRL PB2]}"""
+        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'PRL')
         self.organizar_regional()
         dict_dadosregionais = {}
         lista = []
@@ -92,10 +90,9 @@ class CentroCusto:
             lista_geral = []
         return dict_dadosregionais
 
-    @staticmethod
-    def extrair_info_contrato():
-        """ Retorna um dicionário.ex:{equipamento:[nome_embarcação, gerente, fiscal, cessão contratual]}."""
-        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'Info Contrato')
+    def extrair_info_contrato(self):
+        """ Retorna um dicionário.ex:{equipamento:[nome_embarc, ger, fisc, cessão]}."""
+        a = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Info Contrato')
         numero_linha = a[1].max_row
         lista_contrato = []
         dict_contrato = {}
@@ -117,46 +114,43 @@ class CentroCusto:
     @staticmethod
     def definir_porte():
         """ Retorna o porte relacionado a cada embarcação."""
-        x = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'Previa')
+        x = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
         numero_linha = x[1].max_row
         dict_portes = Planguia_funcoes.relacionar_porte()
         for n in range(2, numero_linha + 1):
             tipo = x[1].cell(row=n, column=5).value
             porte = dict_portes[tipo]
             x[1].cell(row=n, column=7).value = porte
-        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', x[0])
+        Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', x[0])
 
 
-centro = CentroCusto()
-centro.definir_porte()
-y = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'Previa')
-base_dados = y[0].get_sheet_by_name('Base Dados')
-y[0].remove_sheet(base_dados)
-n_linha = y[1].max_row
-dados_gerais_medicao = centro.catalogar_cc()
-dados_contrato = centro.extrair_info_contrato()
-for linha in range(2, n_linha + 1):
-    polo_equip = y[1].cell(row=linha, column=3).value
-    polo_regional = y[1].cell(row=linha, column=4).value
-    polo_porte = y[1].cell(row=linha, column=7).value
-    polo_regional1 = y[1].cell(row=linha, column=2).value
-    dados1 = CentroCusto(polo_regional, polo_porte, polo_regional1, dados_gerais_medicao)
-    w1 = dados1.definir_centroregional()
-    contrato_lista = dados_contrato[polo_equip]
-    if contrato_lista[3] == 'Sim':
-        y[1].cell(row=linha, column=10).value = w1[9]
-        y[1].cell(row=linha, column=12).value = w1[2]
-        y[1].cell(row=linha, column=13).value = w1[10]
-        y[1].cell(row=linha, column=15).value = w1[6]
-    elif contrato_lista[3] == 'Não':
-        y[1].cell(row=linha, column=10).value = w1[9]
-        y[1].cell(row=linha, column=12).value = w1[2]
-        y[1].cell(row=linha, column=13).value = w1[10]
-        y[1].cell(row=linha, column=15).value = w1[7]
-Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', y[0])
+def iniciar_2():
+    centro = CentroCusto()
+    centro.definir_porte()
+    y = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
+    base_dados = y[0].get_sheet_by_name('Base Dados')
+    y[0].remove_sheet(base_dados)
+    n_linha = y[1].max_row
+    dados_gerais_medicao = centro.catalogar_cc()
+    dados_contrato = centro.extrair_info_contrato()
+    for linha in range(2, n_linha + 1):
+        polo_equip = y[1].cell(row=linha, column=3).value
+        polo_regional = y[1].cell(row=linha, column=4).value
+        polo_porte = y[1].cell(row=linha, column=7).value
+        polo_regional1 = y[1].cell(row=linha, column=2).value
+        dados1 = CentroCusto(polo_regional, polo_porte, polo_regional1, dados_gerais_medicao)
+        w1 = dados1.definir_centroregional()
+        contrato_lista = dados_contrato[polo_equip]
+        if contrato_lista[3] == 'Sim':
+            y[1].cell(row=linha, column=10).value = w1[9]
+            y[1].cell(row=linha, column=12).value = w1[2]
+            y[1].cell(row=linha, column=13).value = w1[10]
+            y[1].cell(row=linha, column=15).value = w1[6]
+        elif contrato_lista[3] == 'Não':
+            y[1].cell(row=linha, column=10).value = w1[9]
+            y[1].cell(row=linha, column=12).value = w1[2]
+            y[1].cell(row=linha, column=13).value = w1[10]
+            y[1].cell(row=linha, column=15).value = w1[7]
 
-t = Planguia_funcoes.openr('Projeto_planilha_Guia_Medição_2020.xlsx', 'Previa')
-Planguia_funcoes.configurar_celula(t[1])
-Planguia_funcoes.closer('Projeto_planilha_Guia_Medição_2020.xlsx', t[0])
-
-Planguia_funcoes.mostrar_desempenho(5, 1)
+    Planguia_funcoes.configurar_celula(y[1])
+    Planguia_funcoes.closer('Projeto_planilha_Guia_Medição.xlsx', y[0])
