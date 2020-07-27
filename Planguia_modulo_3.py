@@ -81,7 +81,7 @@ class EnviarEmail:
 
     def encaminhar_email(self):
         try:
-            anexo = r'C:/Users/ay4m/Desktop/Python/projetos/' + self.preparar_email()
+            anexo = r'C:/Users/(chaves)/Desktop/Python/projetos/' + self.preparar_email()
             lista_destinatario = self.listar_destinatario()
             o = win32com.client.Dispatch("Outlook.Application")
             msg = o.CreateItem(0)
