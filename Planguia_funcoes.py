@@ -49,7 +49,7 @@ def atribuir_equipamento(consulta_icj, dict_icj_equip):
 
 
 def agregar_dados():
-    arquivo_excel = r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx'
+    arquivo_excel = r'C:\Users\(chave)\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx'
     aba = pd.read_excel(arquivo_excel, sheet_name='Base Dados')
     resumo = pd.DataFrame(aba.groupby(['Embarcação', 'Regional1', 'Equipamento', 'Regional', 'Tipo'])['Dias'].sum())
     destino = pd.ExcelWriter('Projeto_planilha_Guia_Medição_2020_1.xlsx')
@@ -185,10 +185,10 @@ def calcular():
         indisp = z[1].cell(row=linha, column=8).value
         z[1].cell(row=linha, column=9).value = dias - indisp
         dias_medir = z[1].cell(row=linha, column=9).value
-        'calculo petrobras'
+        'calculo PB1'
         prl = z[1].cell(row=linha, column=10).value
         z[1].cell(row=linha, column=11).value = dias_medir * prl
-        'calculo PBLOG'
+        'calculo PB2'
         prl_pblog = z[1].cell(row=linha, column=13).value
         z[1].cell(row=linha, column=14).value = dias_medir * prl_pblog
     closer('Projeto_planilha_Guia_Medição.xlsx', z[0])
@@ -208,7 +208,8 @@ def transferir_dados():
                            'de medição? (ex:1-Janeiro, 2-Fevereiro, 3-Março, ...)'))
 
     perg2 = int(input('Qual é a revisão da planilha guia de medição? (ex:1, 2, 3,...)'))
-    print('Fatorando valores a serem medidos e preparando a versão final.\npor favor aguarde!!!.\nProcessando................')
+    print('Fatorando valores a serem medidos e preparando a versão '
+          'final.\npor favor aguarde!!!.\nProcessando................')
     z = openr('Projeto_planilha_Guia_Medição.xlsx', 'Previa')
     aba_medicao = z[0]['Medição']
     lista_medicao = []
@@ -294,8 +295,8 @@ def transferir_dados():
     aba_medicao.cell(row=1, column=4).value = parametro_mes[2]
     aba_medicao.cell(row=1, column=6).value = 'Revisão: '
     aba_medicao.cell(row=1, column=7).value = '0' + str(perg2)
-    aba_medicao.cell(row=1, column=8).value = 'Petrobras'
-    aba_medicao.cell(row=1, column=11).value = 'PBLOG'
+    aba_medicao.cell(row=1, column=8).value = 'PB1'
+    aba_medicao.cell(row=1, column=11).value = 'PB2'
     aba_medicao.cell(row=1, column=16).value = numero_mes
 
     formatar(aba_medicao)
@@ -429,7 +430,7 @@ def formatar_ajustes(aba):
     for n9 in range(3, contar_linha2 + 1):
         status_medicao = aba.cell(row=n9, column=14).value
         if status_medicao == 'Não':
-            aba.cell(row=n9, column=15).value = 'Dias de operação suspenso'
+            aba.cell(row=n9, column=15).value = 'Embarcação possui dias sob o status de suspensão contratual'
             for n10 in range(1, 16):
                 cores5 = PatternFill(fill_type='solid', start_color='ff9999', end_color='ff9999')
                 aba.cell(row=n9, column=n10).fill = cores5
