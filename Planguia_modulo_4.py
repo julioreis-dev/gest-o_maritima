@@ -97,7 +97,7 @@ class EstimativaCustos:
     def formatar(self):
         planilha = Planguia_funcoes.openr(self.arquivo, self.aba_destino)
         planilha[1].cell(row=1, column=1).value = 'Cambio: ' + str(self.cambio)
-        cabecalho = ['Equipamento', 'Embarcação', 'Tipo', 'Pet', 'PB2', 'Total']
+        cabecalho = ['Equipamento', 'Embarcação', 'Tipo', 'PB1', 'PB2', 'Total']
 
         for dados in range(1, len(cabecalho) + 1):
             planilha[1].cell(row=2, column=dados).value = cabecalho[dados - 1]
