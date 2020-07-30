@@ -1,11 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
-import xlsxwriter
-import xlrd
-from openpyxl.styles import PatternFill, Border, Side, Protection
-import time
-from openpyxl.styles import Font, numbers
-from openpyxl.styles import colors
+from openpyxl.styles import PatternFill, Border, Side
+from openpyxl.styles import Font
 import win32com.client as win32
 import Planguia_modulo_2
 import time
@@ -13,6 +9,7 @@ from openpyxl.styles import Alignment
 import requests
 import json
 from babel.numbers import format_currency
+import os
 
 '''Funções de apoio que são necessárias para a elaboração da planilha guia.'''
 
@@ -466,3 +463,29 @@ def deletar(arquivo, aba):
     t = openr(arquivo, aba)
     t[1].delete_cols(1, 17)
     closer(arquivo, t[0])
+
+
+def verificar_pasta(dest):
+    atual = time.localtime()
+    pasta_principal = os.path.join(dest, str(atual[0]))
+    if not os.path.isdir(pasta_principal):
+        os.mkdir(pasta_principal)
+
+    mes_atual = atual[1]
+    nome_pasta = ['1-Janeiro', '2-Fevereiro', '3-Março', '4-Abril', '5-Maio', '6-Junho', '7-Julho', '8-Agosto',
+                  '9-Setembro', '10-Outubro', '11-Novembro', '12-Dezembro']
+
+    pasta_planguia = nome_pasta[mes_atual-1]
+    endereco = os.path.join(pasta_principal, pasta_planguia)
+    if not os.path.isdir(endereco):
+        os.mkdir(endereco)
+    return endereco
+
+
+def mover_arquivo(pasta_destino, nome_arquivo):
+    endereco_final = verificar_pasta(pasta_destino)
+    origem = os.path.abspath('.')
+    arquivo_mover = os.path.join(endereco_final, nome_arquivo)
+    if os.path.exists(arquivo_mover):
+        os.remove(arquivo_mover)
+    os.rename(os.path.join(origem, nome_arquivo), os.path.join(endereco_final, nome_arquivo))
