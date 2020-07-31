@@ -1,6 +1,5 @@
 import Planguia_funcoes
 import pandas as pd
-import xlsxwriter
 import time
 from openpyxl import load_workbook
 import Planguia_modulo_2
@@ -127,15 +126,30 @@ def opcao2():
     func.agrupar_inoperancias()
     func.realocar_inoperancias()
     func.calcular()
-    Planguia_modulo_4.iniciar_4()
 
 
 def opcao3():
     func = Planguia_funcoes
     func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+    func.deletar('Projeto_planilha_Guia_Medição.xlsx', 'Estimativa Custo')
     func.calcular()
+    Planguia_modulo_4.iniciar_4()
     func.transferir_dados()
-    func.ajustar_colunas(r'C:\Users\(chave)\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+    func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+    arg = True
+    while arg:
+        copia = input('prezado usuário, deseja fazer uma copia de segurança?\nDigite S --> sim\nDigite N --> não')
+        lista_resp = ['s', 'n']
+        if copia.lower() in lista_resp:
+            if copia.lower() == 's':
+                x = func.openr('Projeto_planilha_Guia_Medição.xlsx', 'Medição')
+                func.closer('planilha_Guia_Medição_copia.xlsx', x[0])
+                arg = False
+            else:
+                arg = False
+        else:
+            print('\nOpção inválida, Digite S --> Sim ou Digite N --> Não\ntente novamente!!!\n')
+            time.sleep(3)
 
 
 def opcao4():
