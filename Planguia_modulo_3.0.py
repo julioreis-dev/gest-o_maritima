@@ -93,8 +93,11 @@ class EnviarEmail:
                 self.revisao) + ':\n' + self.listar_revisao() + '\nAtenciosamente,' \
                                                                 '\nEquipe de Gerenciamento Marítimo\nLOEP/LOFF/GCI/CMAR\n' + self.mes[1]
             msg.Attachments.Add(anexo)
+            index = anexo.rfind('/')
+            extensao = anexo[index + 1:]
+            lista_resposta = [extensao, '\nEmail enviado com sucesso!']
             msg.Send()
-            return '\nEmail enviado com sucesso!'
+            return lista_resposta
         except:
             return 'Erro ao enviar email!!!'
 
@@ -106,4 +109,7 @@ def iniciar_3():
     rev = t[1].cell(row=1, column=7).value
     email = EnviarEmail(t[0], t[1], mes, rev)
     resposta = email.encaminhar_email()
-    print(resposta)
+    pasta_destino = r'C:\Users\ay4m\Desktop'
+    arquivo = resposta[0]
+    Planguia_funcoes.mover_arquivo(pasta_destino, arquivo)
+    print(resposta[1])
