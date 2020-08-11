@@ -109,7 +109,7 @@ def iniciar_3():
     rev = t[1].cell(row=1, column=7).value
     email = EnviarEmail(t[0], t[1], mes, rev)
     resposta = email.encaminhar_email()
-    pasta_destino = r'C:\Users\ay4m\Desktop'
+    pasta_destino = r'C:\Users\(chave)\Desktop'
     arquivo = resposta[0]
     Planguia_funcoes.mover_arquivo(pasta_destino, arquivo)
     print(resposta[1])
