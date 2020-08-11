@@ -118,7 +118,7 @@ def opcao1():
     planguia.ajustar_gopi()
     Planguia_modulo_2.iniciar_2()
     func.ajustar_cabecalho()
-    func.ajustar_colunas(r'C:\Users\ay4m\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
+    func.ajustar_colunas(r'C:\Users\(chave)\Desktop\Python\projetos\Projeto_planilha_Guia_Medição.xlsx', 'Previa')
 
 
 def opcao2():
