@@ -1,5 +1,5 @@
 # gestao_maritima
-Esta aplicação que foi desenvolvida em python realiza a gestão operacional de todas as embarcações que estejam em operação, levando em consideração dados fornecidos de diversas aréas. Todas as particularidades inerentes a essa atividade esta sendo abrangida e aperfeiçoada por esta aplicação. Tal projeto fornece como produto final um relatório que norteia toda a atividade relacionada a custos operacionais, custos fiscais, custos contabeis e tributário que estejam relacionados com a operação maritima.
+Esta aplicação foi desenvolvida em python para atender a necessidade da estatal Brasileiro do ramo de óleo e Gas. A aplicação realiza a gestão operacional de todas as embarcações que estejam em operação na costa brasileira, levando em consideração dados fornecidos de diversas aréas. Todas as particularidades inerentes a essa atividade esta sendo constantemente atualizadas e aperfeiçoadas afim de atender o dinamismo da atividade. Tal projeto fornece como produto final um relatório que norteia toda a atividade relacionada a custos operacionais, custos fiscais, custos contabeis e tributário que estejam relacionados com a operação maritima.
 
 Objetivo
 
