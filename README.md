@@ -3,7 +3,7 @@ Esta aplicação foi desenvolvida em python para atender a necessidade da estata
 
 Objetivo
 
-Este projeto tem como objetivo a criação de um software de gestão da frota maritima, que tem o objetivo de fazer a gestão contratual marítima de todas as embarcações sob a gestão da lider de mercado na industria de óleo e gás Brasileira. Todo o projeto foi escrito em Python e esta adaptado para para suportar o dinamismo que atividade logística marítima requer. 
+O objetivo do projeto foi criar um software de gestão da frota maritima, que tem a função de fazer a gestão contratual marítima de todas as embarcações sob a gestão da lider de mercado na industria de óleo e gás Brasileira. Todo o projeto foi escrito em Python e esta adaptado para para suportar o dinamismo que atividade logística marítima requer. 
 
 Metodologia
 
