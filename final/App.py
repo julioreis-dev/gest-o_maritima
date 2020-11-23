@@ -20,11 +20,11 @@ class PlanInitial:
 
         """
         df = pd.read_excel(self.pfile, sheet_name='GOPI', skiprows=2)
-        df = df[['ICJ', 'Embarcação', 'Classe', 'APONTAMENTO\n(PARA GOPI/PAD)',
-                 'MEDIÇÃO\n (PARA GCI/CMAR)', 'Dias de Barcos relativos']]
+        df = df[['ICJ', 'Embarcação', 'Classe', 'APONTAMENTO\n(PARA GOI/PAD)',
+                 'MEDIÇÃO\n (PARA GCI/CMR)', 'Dias de Barcos relativos']]
         df['Dias de Barcos relativos'] = df['Dias de Barcos relativos'].round(3)
         df.sort_values(by=['Embarcação'], ascending=True, inplace=True)
-        df.rename(columns={'APONTAMENTO\n(PARA GOPI/PAD)': 'Regional', 'MEDIÇÃO\n (PARA GCI/CMAR)': 'Regional CMAR',
+        df.rename(columns={'APONTAMENTO\n(PARA GOI/PAD)': 'Regional', 'MEDIÇÃO\n (PARA GCI/CMR)': 'Regional CMR',
                            'Dias de Barcos relativos': 'Dias Medir'}, inplace=True)
         df.to_excel(self.destination, index=False)
 
@@ -124,7 +124,7 @@ class PlanInitial:
         ind2 = self.prl[index]
         aba.cell(row=line, column=11).value = ind2['PRL Petro']
         aba.cell(row=line, column=13).value = ind2['Objeto de custo']
-        aba.cell(row=line, column=14).value = ind2['PRL PBLog']
+        aba.cell(row=line, column=14).value = ind2['PRL PBL']
         aba.cell(row=line, column=17).value = self.analisecontract(baseicj)[2]
         aba.cell(row=line, column=18).value = self.analisecontract(baseicj)[0]
         aba.cell(row=line, column=19).value = self.analisecontract(baseicj)[1]
@@ -170,12 +170,12 @@ class PlanInitial:
     def agregacion(self):
         aba = pd.read_excel(self.destination, sheet_name='Sheet1')
         resumo = pd.DataFrame(aba.groupby(['ICJ', 'Embarcação', 'Classe', 'Regional',
-                                           'Regional CMAR'])['Dias Medir'].sum()).round(4)
+                                           'Regional CMR'])['Dias Medir'].sum()).round(4)
         destino = pd.ExcelWriter(self.destination)
         resumo.to_excel(destino, 'Sheet1', index=True)
         destino.save()
         df = pd.read_excel(self.destination, sheet_name='Sheet1')
-        df = df[['ICJ', 'Embarcação', 'Classe', 'Regional', 'Regional CMAR', 'Dias Medir']]
+        df = df[['ICJ', 'Embarcação', 'Classe', 'Regional', 'Regional CMR', 'Dias Medir']]
         df.to_excel(self.destination, index=False)
 
     def ajustar_celulas(self):
@@ -194,7 +194,7 @@ class PlanInitial:
         df = pd.read_excel(self.destination, sheet_name='Sheet1')
         df.rename(columns={'Unnamed: 6': 'Equipamento', 'Unnamed: 7': 'Porte', 'Unnamed: 8': 'Indisp',
                            'Unnamed: 9': 'Medir', 'Unnamed: 10': 'PRL Petro', 'Unnamed: 11': 'Medir Petro',
-                           'Unnamed: 12': 'Centro de Custo', 'Unnamed: 13': 'PRL PBLOG', 'Unnamed: 14': 'Medir PBLOG',
+                           'Unnamed: 12': 'Centro de Custo', 'Unnamed: 13': 'PRL PBL', 'Unnamed: 14': 'Medir PBLOG',
                            'Unnamed: 15': 'Objeto de Custo', 'Unnamed: 16': 'Cessão', 'Unnamed: 17': 'Gerente',
                            'Unnamed: 18': 'Fiscal'}, inplace=True)
         for i, row in df.iterrows():
@@ -211,7 +211,7 @@ def prl(pfile):
     df = pd.read_excel(pfile, sheet_name='PRL', skiprows=[0])
     df = df[['Regional', 'Centro de Trabalho', 'Objeto de custo', 'CP', 'Descrição',
              'Unnamed: 5', 'Pólo (Tem cessão)', 'Objeto de custo (Não tem cessão)',
-             'Unnamed: 8', 'PRL Petro', 'PRL PBLog']]
+             'Unnamed: 8', 'PRL Petro', 'PRL PBL']]
     df = df.to_dict('index')
     return df
 
@@ -251,7 +251,7 @@ def aplicationtime(function):
 
 
 def message():
-    return messagebox.askyesno(title='Gerência de Contratos Marítimos - CMAR',
+    return messagebox.askyesno(title='Gerência de Contratos Marítimos - CMR',
                                message='Prezado usuário gostaria de emitir a planilha guia?')
 
 
@@ -280,8 +280,8 @@ def opt2(destination):
 def main():
     try:
         flag = True
-        origin = r'C:\Users\Julio\Desktop\Projeto_planilha_Guia_Medição.xlsx'
-        destination = r'C:\Users\Julio\Desktop\planilha_teste.xlsx'
+        origin = r'C:\Users\(chave)\Desktop\Projeto_planilha_Guia_Medição.xlsx'
+        destination = r'C:\Users\(chave)\Desktop\planilha_teste.xlsx'
         while flag:
             answer = input('################################################'
                            '\nTipos de opções disponíveis nesta aplicação:'
