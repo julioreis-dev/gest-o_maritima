@@ -13,7 +13,6 @@ class PlanInitial:
     def agregdatamedic(self):
         """
         Prepara um dataframe com os dados relevantes, retiradas do arquivo do GOPI.
-
         """
         df = pd.read_excel(self.pfile, sheet_name='GOPI', skiprows=2)
         df = df[['ICJ', 'Embarcação', 'Classe', 'APONTAMENTO\n(PARA GOPI/PAD)',
@@ -27,7 +26,6 @@ class PlanInitial:
     def validcontract(self):
         """
         Associa numero de equipamento buscando o numero de ICJ de cada embarcação.
-
         """
         try:
             wb = load_workbook(self.destination)
@@ -47,7 +45,6 @@ class PlanInitial:
     def validport(self):
         """
         Associa o porte da embarcação pelo tipo.
-
         """
         embarc = None
         try:
@@ -68,7 +65,6 @@ class PlanInitial:
     def alocatedataship(self):
         """
         Função que realiza a alocação de dados de cada embarcação
-
         """
         linha = None
         try:
@@ -92,7 +88,6 @@ class PlanInitial:
     def alocatereg(self, aba, line, baseicj, regional, pte):
         """
         Aloca os dados das embarcaçõe das três principais regionais.
-
         """
         if regional == 'P. Búzios':
             regio = 'B. Santos'
@@ -114,7 +109,6 @@ class PlanInitial:
     def alocateregothers(self, aba, line, baseicj, regional, listregional):
         """
         Aloca os dados das embarcações das regionais secundárias.
-
         """
         index = listregional.index(regional)
         ind2 = self.prl[index]
@@ -133,7 +127,6 @@ class PlanInitial:
     def factory2(reg, pt):
         """
         Função que fornece a chave do dicionário com os dados de medição.
-
         """
         height = ['EPP', 'EMP', 'EGP']
         if reg == 'B. Campos ES':
@@ -144,7 +137,6 @@ class PlanInitial:
     def factory3(self):
         """
         Função que fornece umaa lista com as regionais e seus dados.
-
         """
         wb = load_workbook(self.pfile)
         ws = wb['PRL']
@@ -158,7 +150,6 @@ class PlanInitial:
     def analisecontract(self, base):
         """
         Função que fornece o nome do gerente e fiscal de contrato de cada embarcação usando o ICJ.
-
         """
         infocontract = self.contract[base]
         return infocontract[2], infocontract[3], infocontract[4]
