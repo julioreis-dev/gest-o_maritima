@@ -2,6 +2,7 @@ import pandas as pd
 import modulo_planilha as pl
 import modulo_calculo as mc
 import modulo_email as em
+import modulo_backupfiles as mb
 import time
 from time import sleep
 
@@ -63,29 +64,37 @@ def opt1(origin, destination):
     plan.alocatedataship()
     plan.formatation()
 
+
 @aplicationtime
 def opt2(origin, destination):
     x = origin
     y = destination
     print('Em construção!!!!')
 
+
 @aplicationtime
 def opt3(orig, dest):
     calculate = mc.CalcPlanGui(orig, dest)
     calculate.calcdata()
-    print('Planilha guia finalizada com sucesso!!!')
+    print('Calculo operacional concluído\nPlanilha guia finalizada com sucesso!!!')
+
 
 @aplicationtime
 def opt4(orig, dest):
-    corr = em.email(orig, dest)
+    corr = em.Email(orig, dest)
     revdata = corr.planinformation()
     corr.planformat(revdata)
-    y = corr.filesname(revdata)
+    namefiley = corr.filesname(revdata)
     tocc = corr.preparedest()
     corr.planformat(revdata)
     issue = corr.emailcontent(revdata)
-    statusend = corr.sendemail(revdata, tocc, issue)
+    back = mb.Backup(orig, dest, namefiley)
+    back.verificar_pasta()
+    nameadress = back.mover_arquivo()
+    back.preparar_email(nameadress)
+    statusend = corr.sendemail(revdata, tocc, issue, nameadress)
     print(statusend)
+
 
 def optgeneral(choose):
     opt = {
@@ -118,17 +127,17 @@ def main():
                 if answer in range(1, 5):
                     operation = optgeneral(answer)
                     operation(origin, destination)
-                    time.sleep(3)
+                    sleep(3)
                 elif answer == 0:
                     print('Finalizando................')
-                    time.sleep(1)
+                    sleep(1)
                     flag = False
                 else:
                     print('\nPrezado usuário, tente uma opção válida!!!\n')
-                    time.sleep(3)
+                    sleep(3)
             else:
                 print('\nPrezado usuário, tente novamente digitando um numero válido!!!\n')
-                time.sleep(3)
+                sleep(3)
     except Exception as err:
         print(f'Erro:\nErro de aplicação {err}')
         exit()
