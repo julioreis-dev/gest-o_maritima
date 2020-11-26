@@ -60,12 +60,9 @@ class CalcPlanGui:
         df1.to_excel(writer, 'Medição', startrow=2, startcol=0, header=False, index=False)
 
         writer.save()
-        wb = load_workbook(self.pfile3)
-        wb.save(self.pfile1)
-
 
     def sendproduct(self):
-        wb = load_workbook(self.pfile1)
+        wb = load_workbook(self.pfile3)
         ws = wb['Medição']
         numero_linha = ws.max_row
         for linha2 in range(2, numero_linha + 1):
@@ -73,4 +70,4 @@ class CalcPlanGui:
             if susp == 'Suspenso':
                 for col in range(1, 16):
                     ws.cell(row=linha2, column=col).font = styles.Font(bold=True, color="FF0000")
-        wb.save(self.pfile1)
+        wb.save(self.pfile3)
