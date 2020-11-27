@@ -79,7 +79,7 @@ class Email(CalcPlanGui):
         fields = [2, 5, 8]
         for i, n in enumerate(fields):
             ws.cell(row=1, column=n).value = listdata[i]
-        wb.save(self.pfile1)
+        wb.save(self.pfile3)
 
     def sendemail(self, rev, dest, content, anx):
         try:

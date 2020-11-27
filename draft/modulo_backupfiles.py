@@ -11,7 +11,6 @@ class Backup(CalcPlanGui):
         self. dest = r'C:\Users\ay4m\Desktop'
         self.namefile = 'arquivo_editado.xlsx'
         self.finalname = finalname
-        # self.adress = adress
 
     def verificar_pasta(self):
         atual = time.localtime()
@@ -32,13 +31,12 @@ class Backup(CalcPlanGui):
 
     def mover_arquivo(self):
         endereco_final = self.verificar_pasta()
-        # origem = os.path.abspath('.')
         arquivo_fonte = os.path.join(self.orig, self.namefile)
         arquivo_mover = os.path.join(endereco_final, self.finalname)
         if os.path.exists(arquivo_mover):
             os.remove(arquivo_mover)
         shutil.copyfile(arquivo_fonte, arquivo_mover)
-        # os.rename(os.path.join(self.orig, self.namefile), os.path.join(endereco_final, self.finalname))
+        shutil.copyfile(arquivo_fonte, os.path.join(self.orig, 'backup', self.namefile))
         return arquivo_mover
 
     @staticmethod
@@ -48,20 +46,4 @@ class Backup(CalcPlanGui):
         for sheet in listsheet:
             aba = wb.get_sheet_by_name(sheet)
             wb.remove_sheet(aba)
-        # aba_taxa = wb.get_sheet_by_name('Taxa Diária')
-        # wb.remove_sheet(aba_taxa)
-        # aba_previa = wb.get_sheet_by_name('Previa')
-        # wb.remove_sheet(aba_previa)
-        # aba_info_pblog = wb.get_sheet_by_name('Info Contrato - Pblog')
-        # wb.remove_sheet(aba_info_pblog)
-        # aba_chaves = wb.get_sheet_by_name('Chaves')
-        # wb.remove_sheet(aba_chaves)
         wb.save(adress)
-
-# destiny = r'C:\Users\ay4m\Desktop'
-# # finalsheet = verificar_pasta(destiny)
-# # mover_arquivo(finalsheet, 'julio.xlsx')
-# sheetadress = r'C:\Users\ay4m\Desktop\planguia'
-# namefile = 'arquivo_editado.xlsx'
-# mover_arquivo(sheetadress, destiny, namefile)
-# x=r'C:\Users\ay4m\Desktop\planguia\arquivo_editado.xlsx'
