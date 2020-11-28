@@ -36,7 +36,7 @@ class Backup(CalcPlanGui):
         if os.path.exists(arquivo_mover):
             os.remove(arquivo_mover)
         shutil.copyfile(arquivo_fonte, arquivo_mover)
-        shutil.copyfile(arquivo_fonte, os.path.join(self.orig, 'backup', self.namefile))
+        shutil.copyfile(arquivo_fonte, os.path.join(self.orig, 'backup', self.finalname))
         return arquivo_mover
 
     @staticmethod

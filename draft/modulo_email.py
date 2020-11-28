@@ -129,7 +129,7 @@ class Email(CalcPlanGui):
                       'Caso isso ocorra, uma nova revisão será emitida ' \
                       'com a finalidade de ajustar a planilha guia.'
 
-        subject = '(TESTE) - CMAR - Planilha Guia de Medição - ' + rev[0] + ' - REVISÃO ' + rev[2]
+        subject = 'CMAR - Planilha Guia de Medição - ' + rev[0] + ' - REVISÃO ' + rev[2]
         body = '\nHistórico de ajustes realizados - Revisão ' + rev[2] + ':\n' \
                + self.listar_revisao() + '\nAtenciosamente,\nEquipe de Gerenciamento Marítimo\nLOEP/LOFF/GCI/CMAR\n'
         return corpo_email, subject, body
