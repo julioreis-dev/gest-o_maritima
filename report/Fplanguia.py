@@ -7,7 +7,7 @@ class PlanGuia:
 
     def formatacao(self):
         df_new = self.df.fillna(0)
-        listdel = ['PRL Petro', 'Medir Petro', 'PRL PBLOG', 'Medir PBLOG', 'Objeto de custo',
+        listdel = ['PRL Petro', 'Medir Petro', 'PRL PBL', 'Medir PBL', 'Objeto de custo',
                    'Liberada', 'Observações']
         df_new = df_new.drop(listdel, axis=1)
         df_final = df_new[['Equipamento', 'Embarcação', 'Tipo', 'Porte', 'Regional', 'Regional1', 'Dias', 'Indisp',
