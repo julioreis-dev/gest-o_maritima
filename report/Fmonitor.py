@@ -16,25 +16,21 @@ class PlanMonitor:
         df_new['Valor PBLOG $'] = df_new[listcolumns[1]] / self.dolar
         df_new['Valor PBLOG $'] = df_new[['EMBARCAÇÃO PARCELA USD', 'Valor PBLOG $']].sum(axis=1).round(2)
         df_new['Total $'] = df_new[['Valor Petrobras $', 'Valor PBLOG $']].sum(axis=1).round(2)
-        df_final = df_new[['Embarcação', 'Valor Petrobras $', 'Valor PBLOG $', 'Total $']]
-        df_final.to_excel(r'C:\Users\Julio\Desktop\teste\analise_monitoramento.xlsx', index=False)
+        df_new = df_new[['Embarcação', 'Valor Petrobras $', 'Valor PBLOG $', 'Total $']]
+        df = df_new.copy()
+        df['Embarcação'] = df_new.Embarcação.str.upper()
+        df.to_excel(r'C:\Users\Julio\Desktop\teste\analise_monitoramento.xlsx', index=False)
 
 
-cotacao = float(input('Digite a cotação do Dolar: '))
-listsheets = ['GTLQ - MC', 'Planilha_guia']
-for n in range(0, 2):
-    frame = pd.read_excel(r'C:\Users\Julio\Desktop\teste\analise_CMAR.xlsx', sheet_name=listsheets[n])
-    if n == 0:
-        plan = PlanMonitor(frame, cotacao)
-        plan.formatacao()
-    else:
-        plan = fp.PlanGuia(frame)
-        plan.formatacao()
-mg.merge()
-# Planilha_guia
-# print(dataframe.columns)
-# cotacao = 5.5997
-# df = df.columns
-# df = df[['Embarcação','EMBARCAÇÃO\nPARCELA USD','EMBARCAÇÃO\nPARCELA BRL\n(SEM REAJUSTE)',
-# 'EMBARCAÇÃO\nPARCELA BRL\n(COM REAJUSTE)']]
-# df['valor convertido'] = df[listcolumns].sum(axis=1)
+if __name__ == '__main__':
+    cotacao = float(input('Digite a cotação do Dolar: '))
+    listsheets = ['GTLQ - MC', 'Planilha_guia']
+    for n in range(0, 2):
+        frame = pd.read_excel(r'C:\Users\Julio\Desktop\teste\analise_CMAR.xlsx', sheet_name=listsheets[n], skiprows=[0])
+        if n == 0:
+            plan = PlanMonitor(frame, cotacao)
+            plan.formatacao()
+        else:
+            plan = fp.PlanGuia(frame)
+            plan.formatacao()
+    mg.merge()
