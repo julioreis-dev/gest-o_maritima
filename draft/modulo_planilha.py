@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import pandas as pd
 from openpyxl import load_workbook
 
@@ -38,9 +39,9 @@ class PlanInitial:
             wb.save(self.destination)
         except Exception as err:
 
-            print(f'Erro: Validação rejeitada!!!\nICJ {err} inválido. Por favor verifique se este ICJ '
-                  f'encontra-se previamente cadastrado!!!.')
-            exit()
+            warning = f'Erro: Validação rejeitada!!!\nICJ {err} inválido. Por favor verifique ' \
+                      f'se este ICJ encontra-se previamente cadastrado!!!.'
+            handleerror(warning)
 
     def validport(self):
         """
@@ -58,9 +59,9 @@ class PlanInitial:
                 ws.cell(row=linha, column=8).value = self.port[portet]
             wb.save(self.destination)
         except Exception as err:
-            print(f'Erro: Validação Rejeitada!!!.\nNão existe porte de embarcação relacionado a {err}, atribuído a '
-                  f'embarcação {embarc}.')
-            exit()
+            warning = f'Erro: Validação Rejeitada!!!.\nNão existe porte de embarcação relacionado a {err}, ' \
+                      f'atribuído a embarcação {embarc}.'
+            handleerror(warning)
 
     def alocatedataship(self):
         """
@@ -82,8 +83,10 @@ class PlanInitial:
                     self.alocateregothers(ws, linha, baseicj, regional, listreg)
             wb.save(self.destination)
         except Exception as err:
-            print(f'Erro:\nA regional {err}, informado na linha {linha} não possui critério de rateio.')
-            exit()
+            warning = f'Erro:\nA regional {err}, informado na linha {linha} não possui critério de rateio.'
+            handleerror(warning)
+
+            # exit()
 
     def alocatereg(self, aba, line, baseicj, regional, pte):
         """
@@ -192,3 +195,7 @@ class PlanInitial:
         df.sort_values(by=['Embarcação'], ascending=True, inplace=True)
         df['Observações'] = '-'
         df.to_excel(self.destination, index=False)
+
+
+def handleerror(err):
+    messagebox.showerror(title='Mensagem de erro', message=err)
