@@ -7,7 +7,7 @@ class CalcPlanGui:
     def __init__(self, pathorigin, pathdest):
         self.pfile1 = pathorigin
         self.pfile2 = pathdest
-        self.pfile3 = r'C:\Users\ay4m\Desktop\planguia\arquivo_editado.xlsx'
+        self.pfile3 = r'\Users\Julio\Desktop\teste\arquivo_editado.xlsx'
 
     def calcdata(self):
         df = pd.read_excel(self.pfile2, sheet_name='Sheet1')
