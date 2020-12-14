@@ -10,7 +10,6 @@ class Email(CalcPlanGui):
 
 
     def planinformation(self):
-        # self.clearcell()
         t = time.localtime()
         resposta = []
         month = input(
