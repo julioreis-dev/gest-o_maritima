@@ -39,9 +39,9 @@ class PlanInitial:
             wb.save(self.destination)
         except Exception as err:
 
-            warning = f'Erro: Validação rejeitada!!!\nICJ {err} inválido. Por favor verifique ' \
+            warning = f'Erro: ICJ {err} inválido. Por favor verifique ' \
                       f'se este ICJ encontra-se previamente cadastrado!!!.'
-            handleerror(warning)
+            self.handleerror(warning)
 
     def validport(self):
         """
@@ -59,21 +59,22 @@ class PlanInitial:
                 ws.cell(row=linha, column=8).value = self.port[portet]
             wb.save(self.destination)
         except Exception as err:
-            warning = f'Erro: Validação Rejeitada!!!.\nNão existe porte de embarcação relacionado a {err}, ' \
+            warning = f'Erro: Não existe porte de embarcação relacionado a {err}, ' \
                       f'atribuído a embarcação {embarc}.'
-            handleerror(warning)
+            self.handleerror(warning)
 
     def alocatedataship(self):
         """
         Função que realiza a alocação de dados de cada embarcação
         """
-        linha = None
+        embarc = None
         try:
             wb = load_workbook(self.destination)
             ws = wb['Sheet1']
             listreg = self.factory3()
             contador = ws.max_row
             for linha in range(2, contador + 1):
+                embarc = ws.cell(row=linha, column=2).value
                 baseicj = ws.cell(row=linha, column=1).value
                 regional = ws.cell(row=linha, column=5).value
                 pte = ws.cell(row=linha, column=8).value
@@ -83,14 +84,12 @@ class PlanInitial:
                     self.alocateregothers(ws, linha, baseicj, regional, listreg)
             wb.save(self.destination)
         except Exception as err:
-            warning = f'Erro:\nA regional {err}, informado na linha {linha} não possui critério de rateio.'
-            handleerror(warning)
-
-            # exit()
+            warning = f'Erro:A regional {err}, referente a embarcação {embarc} não possui critério de rateio.'
+            self.handleerror(warning)
 
     def alocatereg(self, aba, line, baseicj, regional, pte):
         """
-        Aloca os dados das embarcaçõe das três principais regionais.
+        Aloca os dados das embarcações das três principais regionais.
         """
         if regional == 'P. Búzios':
             regio = 'B. Santos'
@@ -196,6 +195,6 @@ class PlanInitial:
         df['Observações'] = '-'
         df.to_excel(self.destination, index=False)
 
-
-def handleerror(err):
-    messagebox.showerror(title='Mensagem de erro', message=err)
+    @staticmethod
+    def handleerror(err):
+        messagebox.showerror(title='Mensagem de erro', message=err)
