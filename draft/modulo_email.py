@@ -1,42 +1,35 @@
+from tkinter import messagebox
 import win32com.client
 from openpyxl import load_workbook
 from modulo_calculo import CalcPlanGui
-import time
+from time import localtime
 
 
 class Email(CalcPlanGui):
-    def __init__(self, pathorigin, pathdest):
+    def __init__(self, pathorigin, pathdest, month, version):
         super().__init__(pathorigin, pathdest)
-
+        self.month = month
+        self.review = version
 
     def planinformation(self):
-        t = time.localtime()
+        t = localtime()
         resposta = []
-        month = input(
-            '\nQual é o numero do mês da planilha guia de medição? (ex:1-Janeiro, 2-Fevereiro, 3-Março, ...)?')
-        review = input('Qual é a revisão da planilha guia de medição? (ex:1, 2, 3,...)?')
-        if review.isdigit():
-            review = int(review)
+        if self.month == 1:
+            period = '26/12/' + str(t[0] - 1) + ' a 25/' + str(self.month) + '/' + str(t[0])
         else:
-            print('Erro ao informar a revisão.')
+            period = '26/' + str(self.month - 1) + '/' + str(t[0]) + ' a 25/' + str(self.month) + '/' + str(t[0])
 
-        if month.isdigit():
-            month = int(month)
-            if month == 1:
-                period = '26/12/' + str(t[0] - 1) + ' a 25/' + str(month) + '/' + str(t[0])
-            else:
-                period = '26/' + str(month - 1) + '/' + str(t[0]) + ' a 25/' + str(month) + '/' + str(t[0])
-            meses_ano = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
-                         'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-            mes = meses_ano[month - 1]
-            frase1 = mes + ' de ' + str(t[0])
-            resposta.append(frase1)
-            frase2 = '(Protocolo de envio - Planilha guia encaminhada no dia ' + str(t[2]) + '/' + str(t[1]) + '/' + \
-                     str(t[0]) + ' as ' + str(t[3]) + ':' + str(t[4]) + ':' + str(t[5]) + ')'
-            frase3 = period
-            resposta.append(frase3)
-            resposta.append('0' + str(review))
-            resposta.append(frase2)
+        month_year = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
+                      'Outubro', 'Novembro', 'Dezembro']
+        mes = month_year[self.month - 1]
+        tag1 = mes + ' de ' + str(t[0])
+        resposta.append(tag1)
+        tag2 = '(Protocolo de envio - Planilha guia encaminhada no dia ' + str(t[2]) + '/' + str(t[1]) + '/' + \
+               str(t[0]) + ' as ' + str(t[3]) + ':' + str(t[4]) + ':' + str(t[5]) + ')'
+        tag3 = period
+        resposta.append(tag3)
+        resposta.append('0' + str(self.review))
+        resposta.append(tag2)
         return resposta
 
     @staticmethod
@@ -44,13 +37,12 @@ class Email(CalcPlanGui):
         filename = namesdata[0] + '- Planilha Guia_R' + namesdata[2] + '.xlsx'
         return filename
 
-
     def clearcell(self):
         wb = load_workbook(self.pfile1)
         ws = wb['Medição']
         contador = ws.max_row
         for col in range(1, 22):
-            for linha in range(3, contador+1):
+            for linha in range(3, contador + 1):
                 ws.cell(row=linha, column=col).value = ''
         wb.save(self.pfile1)
 
@@ -91,16 +83,17 @@ class Email(CalcPlanGui):
             msg.Subject = content[1]
             msg.Body = content[0] + '\n' + content[2] + '\n' + rev[3]
             msg.Attachments.Add(anexo)
-            index = anexo.rfind('/')
-            extensao = anexo[index + 1:]
+            # index = anexo.rfind('/')
+            # extensao = anexo[index + 1:]
             msg.Send()
             return 'Email enviado com sucesso!'
         except Exception as err:
-            return f'Erro: {err}\nDurante o processo de elaboração e envio do email um erro foi reportado!!!'
+            warning = f'Erro: \n{err}'
+            self.handleerror(warning)
 
     @staticmethod
     def saudar():
-        t = time.localtime()
+        t = localtime()
         z = t[3]
         if z < 12:
             a = 'Prezados Gerentes e Fiscais de contrato, Bom dia!'
@@ -148,3 +141,7 @@ class Email(CalcPlanGui):
             valor = lista[w]
             sentenca = sentenca + str(valor) + '\n'
         return sentenca
+
+    @staticmethod
+    def handleerror(err):
+        messagebox.showerror(title='Mensagem de erro', message=err)
