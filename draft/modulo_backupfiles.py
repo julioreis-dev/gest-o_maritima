@@ -1,19 +1,20 @@
 import os
-import time
 import shutil
+from time import localtime
 from openpyxl import load_workbook
 from modulo_calculo import CalcPlanGui
+
 
 class Backup(CalcPlanGui):
     def __init__(self, pathorigin, pathdest, finalname):
         super().__init__(pathorigin, pathdest)
-        self. orig = r'\Users\Julio\Desktop\teste\planguia'
-        self. dest = r'\Users\Julio\Desktop\teste'
+        self.orig = r'C:\Users\ay4m\Desktop\planguia'
+        self.dest = r'C:\Users\ay4m\Desktop'
         self.namefile = 'arquivo_editado.xlsx'
         self.finalname = finalname
 
     def verificar_pasta(self):
-        atual = time.localtime()
+        atual = localtime()
         pasta_principal = os.path.join(self.dest, str(atual[0]))
         if not os.path.isdir(pasta_principal):
             os.mkdir(pasta_principal)
@@ -27,7 +28,6 @@ class Backup(CalcPlanGui):
         pasta_atual = nome_pasta[mes_atual - 1]
         endereco = os.path.join(pasta_principal, pasta_atual)
         return endereco
-
 
     def mover_arquivo(self):
         endereco_final = self.verificar_pasta()
