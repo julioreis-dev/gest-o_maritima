@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import pandas as pd
 from openpyxl import load_workbook
 
@@ -13,7 +14,6 @@ class PlanInitial:
     def agregdatamedic(self):
         """
         Prepara um dataframe com os dados relevantes, retiradas do arquivo do GOPI.
-
         """
         df = pd.read_excel(self.pfile, sheet_name='GOPI', skiprows=2)
         df = df[['ICJ', 'Embarcação', 'Classe', 'APONTAMENTO\n(PARA GOPI/PAD)',
@@ -27,7 +27,6 @@ class PlanInitial:
     def validcontract(self):
         """
         Associa numero de equipamento buscando o numero de ICJ de cada embarcação.
-
         """
         try:
             wb = load_workbook(self.destination)
@@ -40,14 +39,13 @@ class PlanInitial:
             wb.save(self.destination)
         except Exception as err:
 
-            print(f'Erro: Validação rejeitada!!!\nICJ {err} inválido. Por favor verifique se este ICJ '
-                  f'encontra-se previamente cadastrado!!!.')
-            exit()
+            warning = f'Erro: ICJ {err} inválido. Por favor verifique ' \
+                      f'se este ICJ encontra-se previamente cadastrado!!!.'
+            self.handleerror(warning)
 
     def validport(self):
         """
         Associa o porte da embarcação pelo tipo.
-
         """
         embarc = None
         try:
@@ -61,22 +59,22 @@ class PlanInitial:
                 ws.cell(row=linha, column=8).value = self.port[portet]
             wb.save(self.destination)
         except Exception as err:
-            print(f'Erro: Validação Rejeitada!!!.\nNão existe porte de embarcação relacionado a {err}, atribuído a '
-                  f'embarcação {embarc}.')
-            exit()
+            warning = f'Erro: Não existe porte de embarcação relacionado a {err}, ' \
+                      f'atribuído a embarcação {embarc}.'
+            self.handleerror(warning)
 
     def alocatedataship(self):
         """
         Função que realiza a alocação de dados de cada embarcação
-
         """
-        linha = None
+        embarc = None
         try:
             wb = load_workbook(self.destination)
             ws = wb['Sheet1']
             listreg = self.factory3()
             contador = ws.max_row
             for linha in range(2, contador + 1):
+                embarc = ws.cell(row=linha, column=2).value
                 baseicj = ws.cell(row=linha, column=1).value
                 regional = ws.cell(row=linha, column=5).value
                 pte = ws.cell(row=linha, column=8).value
@@ -86,13 +84,12 @@ class PlanInitial:
                     self.alocateregothers(ws, linha, baseicj, regional, listreg)
             wb.save(self.destination)
         except Exception as err:
-            print(f'Erro:\nA regional {err}, informado na linha {linha} não possui critério de rateio.')
-            exit()
+            warning = f'Erro:A regional {err}, referente a embarcação {embarc} não possui critério de rateio.'
+            self.handleerror(warning)
 
     def alocatereg(self, aba, line, baseicj, regional, pte):
         """
-        Aloca os dados das embarcaçõe das três principais regionais.
-
+        Aloca os dados das embarcações das três principais regionais.
         """
         if regional == 'P. Búzios':
             regio = 'B. Santos'
@@ -114,7 +111,6 @@ class PlanInitial:
     def alocateregothers(self, aba, line, baseicj, regional, listregional):
         """
         Aloca os dados das embarcações das regionais secundárias.
-
         """
         index = listregional.index(regional)
         ind2 = self.prl[index]
@@ -133,7 +129,6 @@ class PlanInitial:
     def factory2(reg, pt):
         """
         Função que fornece a chave do dicionário com os dados de medição.
-
         """
         height = ['EPP', 'EMP', 'EGP']
         if reg == 'B. Campos ES':
@@ -144,7 +139,6 @@ class PlanInitial:
     def factory3(self):
         """
         Função que fornece umaa lista com as regionais e seus dados.
-
         """
         wb = load_workbook(self.pfile)
         ws = wb['PRL']
@@ -158,7 +152,6 @@ class PlanInitial:
     def analisecontract(self, base):
         """
         Função que fornece o nome do gerente e fiscal de contrato de cada embarcação usando o ICJ.
-
         """
         infocontract = self.contract[base]
         return infocontract[2], infocontract[3], infocontract[4]
@@ -201,3 +194,7 @@ class PlanInitial:
         df.sort_values(by=['Embarcação'], ascending=True, inplace=True)
         df['Observações'] = '-'
         df.to_excel(self.destination, index=False)
+
+    @staticmethod
+    def handleerror(err):
+        messagebox.showerror(title='Mensagem de erro', message=err)
