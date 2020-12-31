@@ -37,7 +37,7 @@ class CalcPlanGui:
         df = pd.read_excel(self.pfile2, sheet_name='Sheet1')
         df1 = df[['Equipamento', 'Embarcação', 'Regional CMAR', 'Gerente', 'Fiscal', 'Dias Medir', 'Indisp', 'Medir',
                   'PRL Petro',
-                  'Medir Petro', 'Centro de Custo', 'PRL PBLOG', 'Medir PBLOG', 'Objeto de Custo', 'Autorizado',
+                  'Medir Petro', 'Centro de Custo', 'PRL log', 'Medir log', 'Objeto de Custo', 'Autorizado',
                   'Observações']]
 
         # carrego o Excel com o template pré-formatado 'template.xlsx'
