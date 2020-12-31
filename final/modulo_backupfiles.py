@@ -8,7 +8,7 @@ from modulo_calculo import CalcPlanGui
 class Backup(CalcPlanGui):
     def __init__(self, pathorigin, pathdest, finalname):
         super().__init__(pathorigin, pathdest)
-        self.orig = r'C:\Users\ay4m\Desktop\planguia'
+        self.orig = r'C:\Users\(chave)\Desktop\planguia'
         self.dest = r'C:\Users\ay4m\Desktop'
         self.namefile = 'arquivo_editado.xlsx'
         self.finalname = finalname
