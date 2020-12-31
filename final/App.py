@@ -16,7 +16,7 @@ def prl(pfile):
     df = pd.read_excel(pfile, sheet_name='PRL', skiprows=[0])
     df = df[['Regional', 'Centro de Trabalho', 'Objeto de custo', 'CP', 'Descrição',
              'Unnamed: 5', 'Pólo (Tem cessão)', 'Objeto de custo (Não tem cessão)',
-             'Unnamed: 8', 'PRL Petro', 'PRL PBLog']]
+             'Unnamed: 8', 'PRL Petro', 'PRL log']]
     df = df.to_dict('index')
     return df
 
