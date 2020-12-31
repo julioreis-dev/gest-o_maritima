@@ -42,7 +42,7 @@ class Backup(CalcPlanGui):
     @staticmethod
     def preparar_email(adress):
         wb = load_workbook(adress)
-        listsheet = ['Porte', 'Taxa Diária', 'Previa', 'Info Contrato - Pblog', 'Chaves']
+        listsheet = ['Porte', 'Taxa Diária', 'Previa', 'Info Contrato - log', 'Chaves']
         for sheet in listsheet:
             aba = wb.get_sheet_by_name(sheet)
             wb.remove_sheet(aba)
