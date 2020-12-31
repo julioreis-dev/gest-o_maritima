@@ -28,9 +28,7 @@ def porte(pfile):
     lisvalor = df1['Classe Desmembrada']
     for valor in lisvalor:
         pt = list(('%s' % (df1['PORTE'][i]) for i, v in enumerate(lisvalor) if v == valor))
-        dictdados[valor] = pt[0]
-        # for pt in ('%s' % (df1['PORTE'][i]) for i, v in enumerate(lisvalor) if v == valor):
-        #     dictdados[valor] = pt
+        dictdados[valor] = pt[0]        
     return dictdados
 
 
