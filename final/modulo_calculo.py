@@ -7,14 +7,14 @@ class CalcPlanGui:
     def __init__(self, pathorigin, pathdest):
         self.pfile1 = pathorigin
         self.pfile2 = pathdest
-        self.pfile3 = r'C:\Users\ay4m\Desktop\planguia\arquivo_editado.xlsx'
+        self.pfile3 = r'C:\Users\(chave)\Desktop\planguia\arquivo_editado.xlsx'
 
     def calcdata(self):
         df = pd.read_excel(self.pfile2, sheet_name='Sheet1')
         df = df.fillna(0.00)
         df['Medir'] = (df['Dias Medir'] - df['Indisp']).round(3)
         df['Medir Petro'] = (df['Medir'] * df['PRL Petro']).round(3)
-        df['Medir PBLOG'] = (df['Medir'] * df['PRL PBLOG']).round(3)
+        df['Medir log'] = (df['Medir'] * df['PRL log']).round(3)
         df.to_excel(self.pfile2, index=False)
 
     def sheetconfiguration(self):
