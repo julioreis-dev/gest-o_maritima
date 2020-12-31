@@ -8,7 +8,7 @@ import modulo_backupfiles as mb
 import time
 
 
-origin = r'C:\Users\ay4m\Desktop\planguia\planilha_Guia_Medição.xlsx'
+origin = r'C:\Users\(chave)\Desktop\planguia\planilha_Guia_Medição.xlsx'
 destination = r'C:\Users\ay4m\Desktop\planguia\planguia_draft.xlsx'
 
 
