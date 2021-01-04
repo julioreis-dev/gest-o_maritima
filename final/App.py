@@ -143,7 +143,7 @@ BLUE = '#04d8fb'
 GREEN = '#a8dda8'
 t = time.localtime()
 window = Tk()
-window.title(f'SISTEMA DE GERENCIAMENTO DE MEDIÇÃO {t[0]} - LOEP/LOFF/GCI/CMAR')
+window.title(f'SISTEMA DE GERENCIAMENTO DE MEDIÇÃO {t[0]} - (XXXX/XXXX/XXX/XXXX')
 window.minsize(width=730, height=350)
 window.config(padx=15, pady=15, bg=GREEN)
 window.iconbitmap('ship-icon-png-29.ico')
