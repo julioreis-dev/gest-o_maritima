@@ -233,6 +233,3 @@ for mes2, val2 in month2:
 version = Spinbox(window, from_=0, to=9, width=2, font=('Arial', 14, 'bold'), bg=GREEN)
 version.grid(row=3, column=1)
 window.mainloop()
-
-# if __name__ == '__main__':
-#     main()
