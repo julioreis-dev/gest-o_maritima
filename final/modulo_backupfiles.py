@@ -8,8 +8,8 @@ from modulo_calculo import CalcPlanGui
 class Backup(CalcPlanGui):
     def __init__(self, pathorigin, pathdest, finalname):
         super().__init__(pathorigin, pathdest)
-        self.orig = r'C:\Users\(chave)\Desktop\planguia'
-        self.dest = r'C:\Users\(chave)\Desktop'
+        self.orig = r'C:\Users\ay4m\Desktop\planguia'
+        self.dest = r'C:\Users\ay4m\Desktop'
         self.namefile = 'arquivo_editado.xlsx'
         self.finalname = finalname
 
@@ -42,7 +42,7 @@ class Backup(CalcPlanGui):
     @staticmethod
     def preparar_email(adress):
         wb = load_workbook(adress)
-        listsheet = ['Porte', 'Taxa Diária', 'Previa', 'Info Contrato - log', 'Chaves']
+        listsheet = ['Porte', 'Taxa Diária', 'Previa', 'Info Contrato - Pblog', 'Chaves']
         for sheet in listsheet:
             aba = wb.get_sheet_by_name(sheet)
             wb.remove_sheet(aba)
