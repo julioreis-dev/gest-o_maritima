@@ -8,15 +8,15 @@ import modulo_backupfiles as mb
 import time
 
 
-origin = r'C:\Users\(chave)\Desktop\planguia\planilha_Guia_Medição.xlsx'
-destination = r'C:\Users\(chave)\Desktop\planguia\planguia_draft.xlsx'
+origin = r'C:\Users\ay4m\Desktop\planguia\planilha_Guia_Medição.xlsx'
+destination = r'C:\Users\ay4m\Desktop\planguia\planguia_draft.xlsx'
 
 
 def prl(pfile):
     df = pd.read_excel(pfile, sheet_name='PRL', skiprows=[0])
     df = df[['Regional', 'Centro de Trabalho', 'Objeto de custo', 'CP', 'Descrição',
              'Unnamed: 5', 'Pólo (Tem cessão)', 'Objeto de custo (Não tem cessão)',
-             'Unnamed: 8', 'PRL Petro', 'PRL log']]
+             'Unnamed: 8', 'PRL Petro', 'PRL PBLog']]
     df = df.to_dict('index')
     return df
 
@@ -28,7 +28,9 @@ def porte(pfile):
     lisvalor = df1['Classe Desmembrada']
     for valor in lisvalor:
         pt = list(('%s' % (df1['PORTE'][i]) for i, v in enumerate(lisvalor) if v == valor))
-        dictdados[valor] = pt[0]        
+        dictdados[valor] = pt[0]
+        # for pt in ('%s' % (df1['PORTE'][i]) for i, v in enumerate(lisvalor) if v == valor):
+        #     dictdados[valor] = pt
     return dictdados
 
 
@@ -143,7 +145,7 @@ BLUE = '#04d8fb'
 GREEN = '#a8dda8'
 t = time.localtime()
 window = Tk()
-window.title(f'SISTEMA DE GERENCIAMENTO DE MEDIÇÃO {t[0]} - (XXXX/XXXX/XXX/XXXX')
+window.title(f'SISTEMA DE GERENCIAMENTO DE MEDIÇÃO {t[0]} - LOEP/LOFF/GCI/CMAR')
 window.minsize(width=730, height=350)
 window.config(padx=15, pady=15, bg=GREEN)
 window.iconbitmap('ship-icon-png-29.ico')
@@ -233,3 +235,6 @@ for mes2, val2 in month2:
 version = Spinbox(window, from_=0, to=9, width=2, font=('Arial', 14, 'bold'), bg=GREEN)
 version.grid(row=3, column=1)
 window.mainloop()
+
+# if __name__ == '__main__':
+#     main()
