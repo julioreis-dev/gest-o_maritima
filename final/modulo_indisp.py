@@ -1,4 +1,4 @@
-import pandas as pd
+from datetime import datetime
 from openpyxl import load_workbook
 
 origin = r'C:\Users\ay4m\Desktop\planguia\planilha_Guia_Medição.xlsx'
@@ -31,31 +31,33 @@ def analiseindisp():
         hr_start = ws.cell(row=line, column=6).value
         data_end = ws.cell(row=line, column=7).value
         hr_end = ws.cell(row=line, column=8).value
+        duration = ws.cell(row=line, column=9).value
 
         data_start = data_start.strftime('%Y-%m-%d')
         hr_start = hr_start.strftime('%X')
+        datetime_start = data_start + ' ' + hr_start
+        datetime_start = datetime.strptime(datetime_start, '%Y-%m-%d %H:%M:%S')
+
         data_end = data_end.strftime('%Y-%m-%d')
         hr_end = hr_end.strftime('%X')
+        datetime_end = data_end + ' ' + hr_end
+        datetime_end = datetime.strptime(datetime_end, '%Y-%m-%d %H:%M:%S')
 
-        data_indisp = (data_start, data_end, hr_start, hr_end)
+        data_indisp = (datetime_start, datetime_end, round((duration/24), 3))
         dict_indip.setdefault(icj, lista_indisp)
         consolided = dict_indip[icj]
         consolided.append(data_indisp)
         dict_indip[icj] = consolided
     return dict_indip
 
-
-    # df = pd.read_excel(origin, sheet_name='Inoperância')
-    # df_new = df['Data Início'].dt.strftime('%Y-%m-%d')
-    # df['Data Início'] = df_new.map(str) + ' ' + df['Hora Início'].map(str)
-    #
-    # df_new1 = df['Data Fim'].dt.strftime('%Y-%m-%d')
-    # df['Data Fim'] = df_new1.map(str) + ' ' + df['Hora Fim'].map(str)
-    # tuplas = [tuple(w) for w in df.value]
-    # print(tuplas)
+def separatedata(dict_indispdata, equip):
+    tupladata = dict_indispdata[equip]
+    for info in tupladata:
+        print(info)
 
 x = analiseindisp()
-print(x)
+y = separatedata(x, 30096540)
+# print(x)
 # format = x[0][1]
 # print(x[0][1])
 # print(x)
