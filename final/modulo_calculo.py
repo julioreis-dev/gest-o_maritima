@@ -1,20 +1,20 @@
 import pandas as pd
 from openpyxl import load_workbook
-import openpyxl.styles as styles
+from openpyxl.styles import Font
 
 
 class CalcPlanGui:
     def __init__(self, pathorigin, pathdest):
         self.pfile1 = pathorigin
         self.pfile2 = pathdest
-        self.pfile3 = r'C:\Users\(chave)\Desktop\planguia\arquivo_editado.xlsx'
+        self.pfile3 = r'C:\Users\ay4m\Desktop\planguia\arquivo_editado.xlsx'
 
     def calcdata(self):
         df = pd.read_excel(self.pfile2, sheet_name='Sheet1')
         df = df.fillna(0.00)
         df['Medir'] = (df['Dias Medir'] - df['Indisp']).round(3)
         df['Medir Petro'] = (df['Medir'] * df['PRL Petro']).round(3)
-        df['Medir log'] = (df['Medir'] * df['PRL log']).round(3)
+        df['Medir PBLOG'] = (df['Medir'] * df['PRL PBLOG']).round(3)
         df.to_excel(self.pfile2, index=False)
 
     def sheetconfiguration(self):
@@ -35,9 +35,9 @@ class CalcPlanGui:
 
     def finalversion(self):
         df = pd.read_excel(self.pfile2, sheet_name='Sheet1')
-        df1 = df[['Equipamento', 'Embarcação', 'Regional CM', 'Gerente', 'Fiscal', 'Dias Medir', 'Indisp', 'Medir',
+        df1 = df[['Equipamento', 'Embarcação', 'Regional CMAR', 'Gerente', 'Fiscal', 'Dias Medir', 'Indisp', 'Medir',
                   'PRL Petro',
-                  'Medir Petro', 'Centro de Custo', 'PRL log', 'Medir log', 'Objeto de Custo', 'Autorizado',
+                  'Medir Petro', 'Centro de Custo', 'PRL PBLOG', 'Medir PBLOG', 'Objeto de Custo', 'Autorizado',
                   'Observações']]
 
         # carrego o Excel com o template pré-formatado 'template.xlsx'
@@ -59,19 +59,19 @@ class CalcPlanGui:
         writer.save()
 
     def sendproduct(self):
+        wb = load_workbook(self.pfile3)
         try:
-            wb = load_workbook(self.pfile3)
             ws = wb['Medição']
             numero_linha = ws.max_row
-            for linha2 in range(3, numero_linha + 1):
-                susp = ws.cell(row=linha2, column=3).value
-                status = ws.cell(row=linha2, column=15).value
-                # medir_final = ws.cell(row=linha2, column=8).value
-                if susp == 'Suspenso' or status == 'Não':
+            for line_file in range(3, numero_linha + 1):
+                susp = ws.cell(row=line_file, column=3).value
+                status = ws.cell(row=line_file, column=15).value.lower()
+                # medir_final = ws.cell(row=line_file, column=8).value
+                if susp == 'Suspenso' or status == 'não':
+                    ws[f'O{line_file}'] = 'Não'
                     for col in range(1, 16):
-                        ws.cell(row=linha2, column=15).value = 'Não'
-                        ws.cell(row=linha2, column=col).font = styles.Font(bold=True, color="FF0000")
+                        ws.cell(row=line_file, column=col).font = Font(bold=True, color='FF0000')
         except AttributeError:
             pass
-        else:
+        finally:
             wb.save(self.pfile3)
